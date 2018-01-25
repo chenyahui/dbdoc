@@ -3,7 +3,6 @@ package db_doc_gen
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 	"fmt"
 )
 
@@ -47,9 +46,6 @@ func (self *DbManager) Connect(cfg Config) error {
 
 	return nil
 }
-
-
-
 
 func (self *DbManager) GetTablesInfo() []TableInfo {
 	tables := self.filterTables()

@@ -8,7 +8,7 @@ func (self *DbManager) filterTables() []string {
 	if len(self.cfg.Includes) > 0 {
 		return self.includeTables(allTables)
 	}
-	if len(self.cfg.Excludes) == 0 {
+	if len(self.cfg.Excludes) > 0 {
 		return self.excludeTables(allTables)
 	}
 
@@ -16,11 +16,19 @@ func (self *DbManager) filterTables() []string {
 }
 
 func (self *DbManager) includeTables(allTables []string) []string {
-	return nil
+	var result []string
+	for _, item := range self.cfg.Includes {
+		if InArray(allTables, item) {
+			result = append(result, item)
+		} else {
+			log.Fatalf("table %s isn't in database", item)
+		}
+	}
+	return result
 }
 
 func (self *DbManager) excludeTables(allTables []string) []string {
-	return nil
+	return ExcludeArray(allTables, self.cfg.Excludes...)
 }
 
 func (self *DbManager) getAllTables() []string {

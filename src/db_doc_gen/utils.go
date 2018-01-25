@@ -9,3 +9,14 @@ func InArray(strArr []string, search_item string) bool {
 
 	return true
 }
+
+func ExcludeArray(strArr []string, elems ...string) []string {
+
+	var result []string
+	for _, item := range strArr {
+		if !InArray(elems, item) {
+			result = append(result, item)
+		}
+	}
+	return result
+}
