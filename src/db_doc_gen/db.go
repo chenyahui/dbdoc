@@ -62,7 +62,7 @@ func (self *DbManager) GetTablesInfo() []TableInfo {
 }
 
 func (self *DbManager) getColumnInfo(table_name string) []ColumnInfo {
-	query := fmt.Sprintf("SELECT column_name,column_type "+
+	query := fmt.Sprintf("SELECT column_name,column_type, column_comment "+
 		"FROM information_schema.columns "+
 		"WHERE table_schema = DATABASE() "+
 		"AND table_name='%s' "+
@@ -79,7 +79,7 @@ func (self *DbManager) getColumnInfo(table_name string) []ColumnInfo {
 	for rows.Next() {
 		column := ColumnInfo{}
 
-		rows.Scan(&column.Name, &column.ColumnType)
+		rows.Scan(&column.Name, &column.ColumnType, &column.Description)
 
 		result = append(result, column)
 	}
