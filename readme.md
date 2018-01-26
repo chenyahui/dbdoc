@@ -7,7 +7,7 @@ db_doc_generator -c config.json
 ```
 
 config file
-```json
+```
 {
   "db_info": {
     "db_type": "mysql",  // required
