@@ -39,7 +39,7 @@ config file
 
 # template
 You can use your own markdown template by set the template_path.
-The tool also offer a default one for you.
+The tool also offers a default one for you.
 
 ```
 {{- .schema}} Document
@@ -54,6 +54,6 @@ The tool also offer a default one for you.
 {{end}}
 ```
 
-The template use the golang `text/template`, you can read the grammar at [here](https://golang.org/pkg/text/template/)
+The template uses the golang `text/template`, you can read the grammar at [here](https://golang.org/pkg/text/template/)
 
 
