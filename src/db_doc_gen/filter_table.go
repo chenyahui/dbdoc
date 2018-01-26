@@ -34,7 +34,7 @@ func (self *DbManager) excludeTables(allTables []string) []string {
 }
 
 func (self *DbManager) getAllTables() []string {
-	rows, err := self.db.Query("show tables")
+	rows, err := self.db.Query(showTableFactory(self.cfg.Dbinfo.DbType))
 
 	if (err != nil) {
 		panic("Failed to show tables")

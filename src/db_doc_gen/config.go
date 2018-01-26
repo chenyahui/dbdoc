@@ -3,7 +3,7 @@ package db_doc_gen
 import "io/ioutil"
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 type DbInfo struct {
@@ -22,15 +22,6 @@ type Config struct {
 	OutPath      string   `json:"out_path"`
 }
 
-func (self *Config) ConnectStr() string {
-	var db = self.Dbinfo
-
-	result := fmt.Sprintf("%s:%s@tcp(%s)/%s",
-		db.Username, db.Password, db.IpPort, db.Schema)
-
-	return result
-}
-
 func ParseConfigFile(filename string) Config {
 	result, err := ioutil.ReadFile(filename)
 	if (err != nil) {
@@ -39,6 +30,7 @@ func ParseConfigFile(filename string) Config {
 
 	var cfg Config
 	if err := json.Unmarshal(result, &cfg); err != nil {
+		log.Println(err)
 		panic("Failed to parse the configuration file!")
 	}
 	return cfg

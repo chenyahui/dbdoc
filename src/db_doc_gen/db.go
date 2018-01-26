@@ -3,7 +3,7 @@ package db_doc_gen
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"fmt"
+	_ "github.com/denisenkom/go-mssqldb"
 )
 
 type DbManager struct {
@@ -12,14 +12,14 @@ type DbManager struct {
 }
 
 type ColumnInfo struct {
-	ColumnName        string
+	ColumnName  string
 	ColumnType  string
 	Description string
 }
 
 type TableInfo struct {
-	Columns []ColumnInfo
-	TableName    string
+	Columns   []ColumnInfo
+	TableName string
 }
 
 func (self *DbManager) Close() {
@@ -33,7 +33,7 @@ func (self *DbManager) Connect(cfg Config) {
 
 	var err error
 
-	self.db, err = sql.Open(cfg.Dbinfo.DbType, cfg.ConnectStr())
+	self.db, err = sql.Open(cfg.Dbinfo.DbType, connectFactory(self.cfg.Dbinfo))
 
 	if (err != nil) {
 		panic("Failed to open database")
@@ -53,21 +53,16 @@ func (self *DbManager) GetTablesInfo() []TableInfo {
 	for _, tableName := range tables {
 		result = append(result,
 			TableInfo{
-				Columns: self.getColumnInfo(tableName),
-				TableName:    tableName,
+				Columns:   self.getColumnInfo(tableName),
+				TableName: tableName,
 			})
 	}
 
 	return result
 }
 
-func (self *DbManager) getColumnInfo(table_name string) []ColumnInfo {
-	query := fmt.Sprintf("SELECT column_name,column_type, column_comment "+
-		"FROM information_schema.columns "+
-		"WHERE table_schema = DATABASE() "+
-		"AND table_name='%s' "+
-		"ORDER BY ordinal_position", table_name)
-
+func (self *DbManager) getColumnInfo(tableName string) []ColumnInfo {
+	query := columnInfoFactory(self.cfg.Dbinfo.DbType, tableName)
 	rows, err := self.db.Query(query)
 	if err != nil {
 		panic("Failed to query columns info")
