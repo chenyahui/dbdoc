@@ -1,4 +1,4 @@
-# Database to Markdown
+# Database to Document
 
 ## How to use
 
@@ -37,9 +37,15 @@ config file
 |template_path|markdown's layout|Optional|
 |out_path|the path you want to save. Default: `schema`_doc.md|Optional|
 
-# template
-You can use your own markdown template by set the template_path.
-The tool also offers a default one for you.
+# Supported database 
+|Database|db_type|
+| ------| ------ |
+|MySQL|mysql|
+|SQL Server|mssql|
+
+# Template
+You can use your own template such as html, json by set the template_path.
+The tool also offers a default markdown template for you.
 
 ```
 {{- .schema}} Document
