@@ -1,5 +1,8 @@
 # Database to Document
 
+## Download
+[download at release page](https://github.com/chenyahui/db_doc_generator/releases)
+
 ## How to use
 
 ```
@@ -34,7 +37,7 @@ config file
 |schema|the schema you want to read|Required|
 |includes|the tables you want to generate. Default: all tables|Optional|
 |excludes|the tables you dont't want to generate.|Optional|
-|template_path|markdown's layout|Optional|
+|template_path|the path of document layout file|Optional|
 |out_path|the path you want to save. Default: `schema`_doc.md|Optional|
 
 # Supported database 
