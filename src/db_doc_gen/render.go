@@ -40,11 +40,11 @@ func RenderTemplate(tableinfos []TableInfo, cfg Config) {
 const defaultTmpl = `
 {{- .schema}} Document
 {{range .tables -}}
-# {{.Name}}
+# {{.TableName}}
 |column|type|description|
 | ------| ------ | ------ |
 {{- range .Columns}}
-|{{.Name}}|{{.ColumnType}}|{{.Description -}}|
+|{{.ColumnName}}|{{.ColumnType}}|{{.Description -}}|
 {{- end}}
 
 {{end}}`

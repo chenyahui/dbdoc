@@ -12,14 +12,14 @@ type DbManager struct {
 }
 
 type ColumnInfo struct {
-	Name        string
+	ColumnName        string
 	ColumnType  string
 	Description string
 }
 
 type TableInfo struct {
 	Columns []ColumnInfo
-	Name    string
+	TableName    string
 }
 
 func (self *DbManager) Close() {
@@ -54,7 +54,7 @@ func (self *DbManager) GetTablesInfo() []TableInfo {
 		result = append(result,
 			TableInfo{
 				Columns: self.getColumnInfo(tableName),
-				Name:    tableName,
+				TableName:    tableName,
 			})
 	}
 
@@ -79,7 +79,7 @@ func (self *DbManager) getColumnInfo(table_name string) []ColumnInfo {
 	for rows.Next() {
 		column := ColumnInfo{}
 
-		rows.Scan(&column.Name, &column.ColumnType, &column.Description)
+		rows.Scan(&column.ColumnName, &column.ColumnType, &column.Description)
 
 		result = append(result, column)
 	}
