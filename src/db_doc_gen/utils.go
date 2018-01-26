@@ -1,5 +1,7 @@
 package db_doc_gen
 
+import "strings"
+
 func InArray(strArr []string, search_item string) bool {
 	for _, item := range strArr {
 		if item == search_item {
@@ -7,7 +9,7 @@ func InArray(strArr []string, search_item string) bool {
 		}
 	}
 
-	return true
+	return false
 }
 
 func ExcludeArray(strArr []string, elems ...string) []string {
@@ -19,4 +21,8 @@ func ExcludeArray(strArr []string, elems ...string) []string {
 		}
 	}
 	return result
+}
+
+func IsBlank(str string) bool {
+	return len(strings.TrimSpace(str)) == 0
 }

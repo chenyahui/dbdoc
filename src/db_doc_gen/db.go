@@ -27,7 +27,7 @@ func (self *DbManager) Close() {
 		self.db.Close()
 	}
 }
-func (self *DbManager) Connect(cfg Config) error {
+func (self *DbManager) Connect(cfg Config) {
 
 	self.cfg = cfg
 
@@ -36,15 +36,13 @@ func (self *DbManager) Connect(cfg Config) error {
 	self.db, err = sql.Open(cfg.Dbinfo.DbType, cfg.ConnectStr())
 
 	if (err != nil) {
-		return err
+		panic("Failed to open database")
 	}
 
 	err = self.db.Ping()
 	if (err != nil) {
-		return err
+		panic("Failed to connect database")
 	}
-
-	return nil
 }
 
 func (self *DbManager) GetTablesInfo() []TableInfo {
@@ -72,7 +70,7 @@ func (self *DbManager) getColumnInfo(table_name string) []ColumnInfo {
 
 	rows, err := self.db.Query(query)
 	if err != nil {
-		panic(err)
+		panic("Failed to query columns info")
 	}
 
 	defer rows.Close()

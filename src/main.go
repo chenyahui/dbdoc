@@ -2,18 +2,26 @@ package main
 
 import (
 	"db_doc_gen"
+	"fmt"
 )
 
 func main() {
-	cfg := db_doc_gen.ParseConfigFile("F:\\iopensource\\db_doc_generator\\etc\\default_config.json")
-	var db = db_doc_gen.DbManager{}
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Printf("Error: %s \n", err)
+		}
+	}()
 
-	err := db.Connect(cfg)
-	if (err != nil) {
-		panic(err)
+	cfg := db_doc_gen.ParseCmd()
+
+	status, msg := db_doc_gen.CheckConfig(&cfg)
+	if !status {
+		panic(msg)
 	}
-	db_doc_gen.RenderTemplate(db.GetTablesInfo(),
-		"F:\\iopensource\\db_doc_generator\\etc\\default_template.md",
-		"out.md",
-	)
+
+	var db = db_doc_gen.DbManager{}
+	defer db.Close()
+
+	db.Connect(cfg)
+	db_doc_gen.RenderTemplate(db.GetTablesInfo(), cfg)
 }

@@ -1,6 +1,8 @@
 package db_doc_gen
 
-import "log"
+import (
+	"fmt"
+)
 
 func (self *DbManager) filterTables() []string {
 	allTables := self.getAllTables()
@@ -21,7 +23,7 @@ func (self *DbManager) includeTables(allTables []string) []string {
 		if InArray(allTables, item) {
 			result = append(result, item)
 		} else {
-			log.Fatalf("table %s isn't in database", item)
+			fmt.Printf("Warning: %s isn't in database \n", item)
 		}
 	}
 	return result
@@ -32,19 +34,12 @@ func (self *DbManager) excludeTables(allTables []string) []string {
 }
 
 func (self *DbManager) getAllTables() []string {
-	if (self.db == nil) {
-		log.Println("db is nil")
-		panic("")
-	}
-
-	db := self.db
-
-	rows, err := db.Query("show tables")
+	rows, err := self.db.Query("show tables")
 
 	if (err != nil) {
-		log.Println("error")
-		panic(err)
+		panic("Failed to show tables")
 	}
+
 	defer rows.Close()
 
 	var result []string

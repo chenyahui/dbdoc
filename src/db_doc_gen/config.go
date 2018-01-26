@@ -10,22 +10,23 @@ type DbInfo struct {
 	DbType   string `json:"db_type"`
 	Username string `json:"username"`
 	Password string `json:"password"`
-	DbName   string `json:"db_name"`
+	Schema   string `json:"schema"`
 	IpPort   string `json:"ip_port"`
 }
 
 type Config struct {
-	Dbinfo   DbInfo   `json:"db_info"`
-	Includes []string `json:"includes"`
-	Excludes []string `json:"excludes"`
-	TmplPath string
+	Dbinfo       DbInfo   `json:"db_info"`
+	Includes     []string `json:"includes"`
+	Excludes     []string `json:"excludes"`
+	TemplatePath string   `json:"template_path"`
+	OutPath      string   `json:"out_path"`
 }
 
 func (self *Config) ConnectStr() string {
 	var db = self.Dbinfo
 
 	result := fmt.Sprintf("%s:%s@tcp(%s)/%s",
-		db.Username, db.Password, db.IpPort, db.DbName)
+		db.Username, db.Password, db.IpPort, db.Schema)
 
 	return result
 }
@@ -33,12 +34,36 @@ func (self *Config) ConnectStr() string {
 func ParseConfigFile(filename string) Config {
 	result, err := ioutil.ReadFile(filename)
 	if (err != nil) {
-		panic(err)
+		panic("Failed to read the configuration file!")
 	}
 
 	var cfg Config
 	if err := json.Unmarshal(result, &cfg); err != nil {
-		panic(err)
+		panic("Failed to parse the configuration file!")
 	}
 	return cfg
+}
+
+func CheckConfig(cfg *Config) (bool, string) {
+	if IsBlank(cfg.Dbinfo.Schema) {
+		return false, "schema can't be empty"
+	}
+	if IsBlank(cfg.Dbinfo.IpPort) {
+		return false, "ip and port can't be empty"
+	}
+	if IsBlank(cfg.Dbinfo.Username) {
+		return false, "ip and port can't be empty"
+	}
+	if IsBlank(cfg.Dbinfo.Password) {
+		return false, "ip and port can't be empty"
+	}
+	if (IsBlank(cfg.Dbinfo.DbType)) {
+		return false, "database type can't be empty"
+	}
+
+	if (IsBlank(cfg.OutPath)) {
+		cfg.OutPath = cfg.Dbinfo.Schema + "_doc.md"
+	}
+
+	return true, "that's right"
 }
