@@ -1,7 +1,7 @@
 package main
 
 import (
-	"db_doc_gen"
+	"dbdoc"
 	"fmt"
 )
 
@@ -12,16 +12,16 @@ func main() {
 		}
 	}()
 
-	cfg := db_doc_gen.ParseCmd()
+	cfg := dbdoc.ParseCmd()
 
-	status, msg := db_doc_gen.CheckConfig(&cfg)
+	status, msg := dbdoc.CheckConfig(&cfg)
 	if !status {
 		panic(msg)
 	}
 
-	var db = db_doc_gen.DbManager{}
+	var db = dbdoc.DbManager{}
 	defer db.Close()
 
 	db.Connect(cfg)
-	db_doc_gen.RenderTemplate(db.GetTablesInfo(), cfg)
+	dbdoc.RenderTemplate(db.GetTablesInfo(), cfg)
 }

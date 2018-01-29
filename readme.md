@@ -6,7 +6,7 @@
 ## How to use
 
 ```
-db_doc_generator -c config.json
+dbdoc -c config.json
 ```
 
 config file

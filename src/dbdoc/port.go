@@ -1,4 +1,4 @@
-package db_doc_gen
+package dbdoc
 
 import (
 	"fmt"
