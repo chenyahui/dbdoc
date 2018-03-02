@@ -1,4 +1,5 @@
-# Database to Document
+# Database to Document 
+[中文介绍](readme-zh.md)
 
 ## Download
 [download at release page](https://github.com/chenyahui/db_doc_generator/releases)
@@ -66,3 +67,7 @@ The tool also offers a default markdown template for you.
 The template uses the golang `text/template`, you can read the grammar at [here](https://golang.org/pkg/text/template/)
 
 
+# TODO
+* Support more database.
+* Support Microsoft Office Word/Excel.
+* Humanized command line arguments like MySQL.
