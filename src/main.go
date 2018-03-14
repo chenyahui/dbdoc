@@ -23,5 +23,7 @@ func main() {
 	defer db.Close()
 
 	db.Connect(cfg)
-	dbdoc.RenderTemplate(db.GetTablesInfo(), cfg)
+	//dbdoc.RenderTemplate(db.GetTablesInfo(), cfg)
+	dbdoc.RenderToWord(db.GetTablesInfo(), cfg)
+
 }
