@@ -1,10 +1,10 @@
-package dbdoc
+package common
 
 import "strings"
 
-func InArray(strArr []string, search_item string) bool {
+func InArray(strArr []string, searchItem string) bool {
 	for _, item := range strArr {
-		if item == search_item {
+		if item == searchItem {
 			return true
 		}
 	}
@@ -25,4 +25,12 @@ func ExcludeArray(strArr []string, elems ...string) []string {
 
 func IsBlank(str string) bool {
 	return len(strings.TrimSpace(str)) == 0
+}
+
+
+func If(condition bool, trueVal, falseVal interface{}) interface{} {
+	if condition {
+		return trueVal
+	}
+	return falseVal
 }

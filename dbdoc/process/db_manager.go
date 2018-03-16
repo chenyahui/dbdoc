@@ -1,25 +1,17 @@
-package dbdoc
+package process
 
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/chenyahui/dbdoc/dbdoc/common"
+	"github.com/chenyahui/dbdoc/dbdoc/dbport"
 )
 
 type DbManager struct {
-	db  *sql.DB
-	cfg Config
-}
-
-type ColumnInfo struct {
-	ColumnName  string
-	ColumnType  string
-	Description string
-}
-
-type TableInfo struct {
-	Columns   []ColumnInfo
-	TableName string
+	db       *sql.DB
+	cfg      common.Config
+	operator dbport.DBOperator
 }
 
 func (self *DbManager) Close() {
@@ -27,13 +19,14 @@ func (self *DbManager) Close() {
 		self.db.Close()
 	}
 }
-func (self *DbManager) Connect(cfg Config) {
 
+func (self *DbManager) Connect(cfg common.Config) {
 	self.cfg = cfg
+	self.operator = dbport.GetOperatorByName(cfg.DbInfo.DbType)
 
 	var err error
 
-	self.db, err = sql.Open(cfg.Dbinfo.DbType, connectFactory(self.cfg.Dbinfo))
+	self.db, err = sql.Open(cfg.DbInfo.DbType, self.operator.Connect(cfg.DbInfo))
 
 	if (err != nil) {
 		panic("Failed to open database")
@@ -45,14 +38,14 @@ func (self *DbManager) Connect(cfg Config) {
 	}
 }
 
-func (self *DbManager) GetTablesInfo() []TableInfo {
+func (self *DbManager) GetTablesInfo() []common.TableInfo {
 	tables := self.filterTables()
 
-	var result []TableInfo
+	var result []common.TableInfo
 
 	for _, tableName := range tables {
 		result = append(result,
-			TableInfo{
+			common.TableInfo{
 				Columns:   self.getColumnInfo(tableName),
 				TableName: tableName,
 			})
@@ -61,8 +54,8 @@ func (self *DbManager) GetTablesInfo() []TableInfo {
 	return result
 }
 
-func (self *DbManager) getColumnInfo(tableName string) []ColumnInfo {
-	query := columnInfoFactory(self.cfg.Dbinfo.DbType, tableName)
+func (self *DbManager) getColumnInfo(tableName string) []common.ColumnInfo {
+	query := self.operator.GetColumnInfo(tableName)
 	rows, err := self.db.Query(query)
 	if err != nil {
 		panic("Failed to query columns info")
@@ -70,9 +63,9 @@ func (self *DbManager) getColumnInfo(tableName string) []ColumnInfo {
 
 	defer rows.Close()
 
-	var result []ColumnInfo
+	var result []common.ColumnInfo
 	for rows.Next() {
-		column := ColumnInfo{}
+		column := common.ColumnInfo{}
 
 		rows.Scan(&column.ColumnName, &column.ColumnType, &column.Description)
 

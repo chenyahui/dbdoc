@@ -1,21 +1,21 @@
-package dbdoc
+package render
 
 import (
-	"text/template"
+	"github.com/chenyahui/dbdoc/dbdoc/common"
 	"os"
 	"bufio"
 	"fmt"
+	"text/template"
 )
 
-func RenderTemplate(tableinfos []TableInfo, cfg Config) {
-
+func renderPlain(tableinfos []common.TableInfo, cfg common.Config) {
 	tmpl := template.New("tmpl")
 
 	templatePath := cfg.TemplatePath
 	outPath := cfg.OutPath
 
 	var err error
-	if IsBlank(templatePath) {
+	if common.IsBlank(templatePath) {
 		tmpl, err = tmpl.Parse(defaultTmpl)
 	} else {
 		tmpl, err = tmpl.ParseFiles(templatePath)
@@ -31,7 +31,7 @@ func RenderTemplate(tableinfos []TableInfo, cfg Config) {
 	tmpl.Execute(writer,
 		map[string]interface{}{
 			"tables": tableinfos,
-			"schema": cfg.Dbinfo.Schema})
+			"schema": cfg.DbInfo.Schema})
 
 	writer.Flush()
 	fmt.Printf("save result to %s \n", outPath)
