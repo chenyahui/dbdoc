@@ -1,1 +1,1 @@
-[点击查看博客](http://chenyahui.github.io/2018/01/30/db_doc_generator/)
+[点击查看博客](http://www.cyhone.com/articles/db-doc-generator/)
