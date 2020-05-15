@@ -1,8 +1,8 @@
 package dbport
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/common"
 	"fmt"
+	"github.com/chenyahui/dbdoc/dbdoc/common"
 )
 
 type MySQLPort struct {

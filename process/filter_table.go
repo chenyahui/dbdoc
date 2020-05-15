@@ -1,8 +1,8 @@
 package process
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/common"
 	"fmt"
+	"github.com/chenyahui/dbdoc/common"
 )
 
 func (self *DbManager) filterTables() []string {
@@ -37,7 +37,7 @@ func (self *DbManager) excludeTables(allTables []string) []string {
 func (self *DbManager) getAllTables() []string {
 	rows, err := self.db.Query(self.operator.ListTables())
 
-	if (err != nil) {
+	if err != nil {
 		panic("Failed to show tables")
 	}
 

@@ -1,10 +1,10 @@
 package render
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/common"
-	"os"
 	"bufio"
 	"fmt"
+	"github.com/chenyahui/dbdoc/common"
+	"os"
 	"text/template"
 )
 

@@ -1,11 +1,11 @@
 package common
 
-import "io/ioutil"
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
-	"strings"
 	"path/filepath"
+	"strings"
 )
 
 type Config struct {
@@ -31,7 +31,7 @@ type Filters struct {
 
 func ParseConfigFile(filename string) Config {
 	result, err := ioutil.ReadFile(filename)
-	if (err != nil) {
+	if err != nil {
 		panic("Failed to read the configuration file!")
 	}
 
@@ -57,7 +57,7 @@ func CheckConfig(cfg *Config) (bool, string) {
 		return false, "ip and port can't be empty"
 	}
 
-	if (IsBlank(cfg.DbInfo.DbType)) {
+	if IsBlank(cfg.DbInfo.DbType) {
 		return false, "database type can't be empty"
 	}
 

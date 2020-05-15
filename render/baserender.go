@@ -1,6 +1,6 @@
 package render
 
-import "github.com/chenyahui/dbdoc/dbdoc/common"
+import "github.com/chenyahui/dbdoc/common"
 
 type RenderFunc = func(tableinfos []common.TableInfo, cfg common.Config)
 

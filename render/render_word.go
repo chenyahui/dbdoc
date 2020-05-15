@@ -1,8 +1,8 @@
 package render
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/common"
 	"baliance.com/gooxml/document"
+	"github.com/chenyahui/dbdoc/common"
 )
 
 func renderWord(tableinfos []common.TableInfo, cfg common.Config) {

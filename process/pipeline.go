@@ -1,9 +1,9 @@
 package process
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/cmdline"
-	"github.com/chenyahui/dbdoc/dbdoc/common"
-	"github.com/chenyahui/dbdoc/dbdoc/render"
+	"github.com/chenyahui/dbdoc/cmdline"
+	"github.com/chenyahui/dbdoc/common"
+	"github.com/chenyahui/dbdoc/render"
 )
 
 func Pipeline() {

@@ -2,10 +2,10 @@ package process
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/chenyahui/dbdoc/common"
+	"github.com/chenyahui/dbdoc/dbport"
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/chenyahui/dbdoc/dbdoc/common"
-	"github.com/chenyahui/dbdoc/dbdoc/dbport"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type DbManager struct {
@@ -15,7 +15,7 @@ type DbManager struct {
 }
 
 func (self *DbManager) Close() {
-	if (self.db != nil) {
+	if self.db != nil {
 		self.db.Close()
 	}
 }
@@ -28,12 +28,12 @@ func (self *DbManager) Connect(cfg common.Config) {
 
 	self.db, err = sql.Open(cfg.DbInfo.DbType, self.operator.Connect(cfg.DbInfo))
 
-	if (err != nil) {
+	if err != nil {
 		panic("Failed to open database")
 	}
 
 	err = self.db.Ping()
-	if (err != nil) {
+	if err != nil {
 		panic("Failed to connect database")
 	}
 }

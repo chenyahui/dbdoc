@@ -1,7 +1,7 @@
 package dbport
 
 import (
-	"github.com/chenyahui/dbdoc/dbdoc/common"
+	"github.com/chenyahui/dbdoc/common"
 )
 
 type DBOperator interface {
